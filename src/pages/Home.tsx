@@ -1,5 +1,4 @@
-// src/components/Home.tsx
-import React from 'react';
+
 
 // Tipagem para os dados do recurso
 interface Feature {
