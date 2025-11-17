@@ -1,32 +1,35 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import { Header } from './components/Header';
+import type { UserProfile } from './types/user'; 
+
+// Importando as páginas
 import { Home } from './pages/Home';
 import { Dashboard } from './pages/Dashboard';
-import { Exercicios } from './pages/Exercicios';
-import { Atividade } from './components/Atividade';
-import { Header } from './components/Header';
 
-const App: React.FC = () => {
-  const userStats = {
+
+function App() {
+  // Usando o tipo para os dados mockados
+  const userData: UserProfile = {
     currentLevel: 2,
     currentXP: 10,
     maxXP: 100,
-    userNameInitial: 'U',
-    activeLink: 'Dashboard',
+    userNameInitial: "U"
   };
 
   return (
-    <Router>
-      <div className="bg-gray-900 min-h-screen text-white">
-        <Header {...userStats} />
+    <div className="min-h-screen bg-gray-900">
+      
+      {/* Passando os dados para o Header */}
+      <Header {...userData} />
+
+      <main>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/exercicios/:missaoId" element={<Exercicios />} />
-          <Route path="/atividade/:missaoId" element={<Atividade />} />
         </Routes>
-      </div>
-    </Router>
+      </main>
+    </div>
   );
-};
+}
 
 export default App;
