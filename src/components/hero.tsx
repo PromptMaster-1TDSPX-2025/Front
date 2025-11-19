@@ -3,7 +3,7 @@ export function Hero() {
 
     <section className="px-8 py-20 text-white">
       
-      <div className="rounded-2xl bg-linear-to-r from-green-700 to-indigo-900 p-16 flex">
+      <div className="rounded-2xl bg-linear-to-r from-teal-600 to-indigo-900 p-16 flex">
         
         <div className="w-1/2 flex flex-col justify-center">
           <h1 className="text-5xl font-bold leading-tight">
