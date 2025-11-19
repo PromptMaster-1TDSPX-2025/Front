@@ -6,6 +6,7 @@ import type { UserProfile } from './types/user';
 import { Home } from './pages/Home';
 import { Dashboard } from './pages/Dashboard';
 import { Integrantes } from './pages/integrantes';
+import { Footer } from './components/footer';
 
 
 function App() {
@@ -20,7 +21,6 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-900">
       
-      {/* Passando os dados para o Header */}
       <Header {...userData} />
 
       <main>
@@ -30,6 +30,7 @@ function App() {
           <Route path="/integrantes" element={<Integrantes />} />
         </Routes>
       </main>
+      <Footer />
     </div>
   );
 }
