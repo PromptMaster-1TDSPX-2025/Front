@@ -5,6 +5,7 @@ import type { UserProfile } from './types/user';
 // Importando as páginas
 import { Home } from './pages/Home';
 import { Dashboard } from './pages/Dashboard';
+import { Integrantes } from './pages/integrantes';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/integrantes" element={<Integrantes />} />
         </Routes>
       </main>
     </div>
