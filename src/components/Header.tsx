@@ -11,10 +11,11 @@ export function Header({ currentLevel, currentXP, maxXP, userNameInitial }: User
     }`;
 
   return (
+    
     <header className="flex justify-between items-center px-8 py-4 bg-gray-800 border-b border-gray-700">
-      <div className="text-2xl font-bold text-white">
+      <Link to="/" className="text-2xl font-bold text-white hover:opacity-80 transition-opacity">
         <span className="text-green-500">Prompt</span>Master
-      </div>
+      </Link>
 
       <nav className="flex gap-4">
         <Link to="/" className={getLinkClass('/')}>Início</Link>
