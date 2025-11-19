@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import type { UserProfile } from '../types/user'; 
-// Usando a interface para as props
+
 export function Header({ currentLevel, currentXP, maxXP, userNameInitial }: UserProfile) {
   const location = useLocation(); 
   const xpPercentage = (currentXP / maxXP) * 100;
