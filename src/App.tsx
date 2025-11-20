@@ -8,6 +8,7 @@ import { Dashboard } from './pages/Dashboard';
 import { Integrantes } from './pages/integrantes';
 import { Footer } from './components/footer';
 import { Faq } from './pages/Faq';
+import { Sobre } from './pages/sobre-nos';
 
 
 function App() {
@@ -29,7 +30,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/integrantes" element={<Integrantes />} />
-          <Route path ="/faq" element={/* Importei a página Faq */ <Faq />} />
+          <Route path ="/faq" element={<Faq />} />
+          <Route path="/sobre" element={<Sobre />} />
         </Routes>
       </main>
       <Footer />
