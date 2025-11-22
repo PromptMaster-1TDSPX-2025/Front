@@ -7,6 +7,8 @@ import { Faq } from './pages/Faq';
 import { Sobre } from './pages/sobre-nos';
 import { Atividade } from './components/Atividade';
 import { Exercicios } from './pages/Exercicios';
+import { Cadastro } from './pages/Cadastro';
+import { Login } from './pages/Login';
 
 function App() {
   return (
@@ -20,9 +22,9 @@ function App() {
         <Route path="sobre" element={<Sobre />} />
         <Route path="exercicios/:missaoId" element={<Exercicios />} />
         <Route path="atividade/:missaoId" element={<Atividade />} />
-
-
       </Route>
+      <Route path="/login" element={<Login />} />
+      <Route path="/cadastro" element={<Cadastro />} />
     </Routes>
   );
 }
