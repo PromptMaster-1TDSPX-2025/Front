@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { DefaultLayout } from './components/Layout';
+import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
 import { Dashboard } from './pages/Dashboard';
 import { Integrantes } from './pages/integrantes';
@@ -11,7 +11,7 @@ import { Exercicios } from './pages/Exercicios';
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<DefaultLayout />}>
+      <Route path="/" element={<Layout />}>
 
         <Route index element={<Home />} />
         <Route path="dashboard" element={<Dashboard />} />

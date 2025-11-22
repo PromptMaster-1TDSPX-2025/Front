@@ -1,20 +1,16 @@
 import { Outlet } from 'react-router-dom';
-import { Header } from './Header'; 
-import { Footer } from './footer'; 
-import type { UserProfile } from '../types/user';
+import { Header } from './Header';
+import { Footer } from './footer';
 
-export function DefaultLayout() {
-  const userData: UserProfile = {
-    currentLevel: 2,
-    currentXP: 10,
-    maxXP: 100,
-    userNameInitial: "U"
-  };
+
+export function Layout() { 
+
 
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col text-white">
       
-      <Header {...userData} />
+    
+      <Header /> 
 
       <main className="flex-1">
         <Outlet />
