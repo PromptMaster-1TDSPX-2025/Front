@@ -10,11 +10,12 @@ interface Missao {
 }
 
 const missoes: Missao[] = [
-  { id: 'fundamentos', icon: '🎯', title: 'Fundamentos', description: 'Domine os conceitos básicos de engenharia de prompt.', progress: 2, total: 3 },
-  { id: 'estruturacao', icon: '📏', title: 'Estruturação', description: 'Aprenda a organizar informações e formatar saídas.', progress: 0, total: 3 },
-  { id: 'tecnicas-avancadas', icon: '🚀', title: 'Técnicas Avançadas', description: 'Técnicas sofisticadas para resultados profissionais.', progress: 0, total: 3 },
-  { id: 'nivel-expert', icon: '👑', title: 'Nível Expert', description: 'Desafios para mestres da engenharia de prompt.', progress: 0, total: 2 },
+  { id: 'programacao', icon: '🎯', title: 'Programação', description: 'Domine os conceitos básicos de engenharia de prompt focados na área de programação.', progress: 2, total: 3 },
+  { id: 'imagens', icon: '📏', title: 'Imagens', description: 'Aprenda a organizar informações e formatar prompts para gerar a melhor imagem.', progress: 0, total: 3 },
+  { id: 'documentos', icon: '🚀', title: 'Documentos', description: 'Técnicas sofisticadas para gerar documentos claros e ricos.', progress: 0, total: 3 },
+  { id: 'curadoria', icon: '👑', title: 'Pesquisa e Curadoria de Informação', description: 'Desafios para mestres de pesquisas.', progress: 0, total: 2 },
 ];
+
 
 export function Dashboard() {
   return (

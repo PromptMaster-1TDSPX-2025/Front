@@ -9,23 +9,23 @@ interface Exercise {
   link: string;
 }
 
-// Cada missão tem seus próprios exercícios
 const exercisesByMission: Record<string, Exercise[]> = {
-  fundamentos: [
-    { title: 'Clareza e Objetividade', description: 'Prompt claros e diretos.', difficulty: 'Fácil', xp: 50, completed: true, link: '/atividade/fundamentos-1' },
-    { title: 'Contexto é Rei', description: 'Dar contexto adequado para a IA.', difficulty: 'Fácil', xp: 50, completed: false, link: '/atividade/fundamentos-2' },
+  programacao: [
+    { title: 'Clareza e Objetividade', description: 'Prompts claros e diretos.', difficulty: 'Fácil', xp: 50, completed: true, link: '/atividade/programacao-1' },
+    { title: 'Contexto é Rei', description: 'Dar contexto adequado para a IA.', difficulty: 'Fácil', xp: 50, completed: false, link: '/atividade/programacao-2' },
   ],
-  estruturacao: [
-    { title: 'Organização de Dados', description: 'Estruture informações corretamente.', difficulty: 'Médio', xp: 60, completed: false, link: '/atividade/estruturacao-1' },
-    { title: 'Formatação de Respostas', description: 'Saídas bem formatadas.', difficulty: 'Médio', xp: 60, completed: false, link: '/atividade/estruturacao-2' },
+  imagens: [
+    { title: 'Organização de Dados', description: 'Estruture informações corretamente.', difficulty: 'Médio', xp: 60, completed: false, link: '/atividade/imagens-1' },
+    { title: 'Formatação de Respostas', description: 'Saídas bem formatadas.', difficulty: 'Médio', xp: 60, completed: false, link: '/atividade/imagens-2' },
   ],
-  'tecnicas-avancadas': [
-    { title: 'Comandos Condicionais', description: 'Use condições nos prompts.', difficulty: 'Difícil', xp: 80, completed: false, link: '/atividade/tecnicas-1' },
+  documentos: [
+    { title: 'Comandos Condicionais', description: 'Use condições nos prompts.', difficulty: 'Difícil', xp: 80, completed: false, link: '/atividade/documentos-1' },
   ],
-  'nivel-expert': [
-    { title: 'Prompt Mastery', description: 'Desafios avançados para mestres.', difficulty: 'Expert', xp: 100, completed: false, link: '/atividade/expert-1' },
+  curadoria: [
+    { title: 'Prompt Mastery', description: 'Desafios avançados para mestres.', difficulty: 'Expert', xp: 100, completed: false, link: '/atividade/curadoria-1' },
   ],
 };
+
 
 export function Exercicios() {
   const { missaoId } = useParams<{ missaoId: string }>();
