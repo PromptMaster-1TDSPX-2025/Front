@@ -52,7 +52,7 @@ export function Atividade() {
 
   const [prompt, setPrompt] = useState("");
   const [lives, setLives] = useState(5);
-  const [score, setScore] = useState<number | null>(null);
+  const [score, setScore] = useState<number | null>(null); // agora está sendo usado no JSX
 
   if (!atividade) return <p className="p-5">Atividade não encontrada.</p>;
 
@@ -86,21 +86,23 @@ export function Atividade() {
       </button>
 
       {/* VIDAS + NOTA */}
-      <div className="flex gap-6 mb-6 text-lg items-center">
-        <div className="flex items-center gap-2">
-          <div className="mb-4">
-            <p className="font-semibold">Vidas:</p>
-            <div className="flex gap-1 text-2xl">
-              {Array.from({ length: lives }).map((_, index) => (
-                <span key={index}>❤️</span>
-              ))}
-            </div>
-          </div>
+      <div className="flex gap-10 mb-6 text-lg items-center">
 
-              
+        {/* VIDAS */}
+        <div>
+          <p className="font-semibold">Vidas:</p>
+          <div className="flex gap-1 text-2xl">
+            {Array.from({ length: lives }).map((_, index) => (
+              <span key={index}>❤️</span>
+            ))}
+          </div>
         </div>
 
-       
+        {/* NOTA */}
+        <div>
+          <p className="font-semibold">Última Nota:</p>
+          <p className="text-2xl">{score !== null ? score : "–"}</p>
+        </div>
       </div>
 
       <div className="bg-gray-800 p-6 rounded-xl">
@@ -125,10 +127,11 @@ export function Atividade() {
           <button
             type="submit"
             disabled={lives === 0}
-            className={`px-4 py-2 rounded-md ${lives === 0
+            className={`px-4 py-2 rounded-md ${
+              lives === 0
                 ? "bg-gray-500 cursor-not-allowed"
                 : "bg-green-600 hover:bg-green-700"
-              }`}
+            }`}
           >
             {lives === 0 ? "Sem vidas" : "Enviar Prompt"}
           </button>
