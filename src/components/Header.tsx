@@ -2,7 +2,10 @@ import { Link, useLocation } from 'react-router-dom';
 
 export function Header() {
   const location = useLocation();
-  const isDashboard = location.pathname === '/dashboard';
+
+  const pagesWithProfile = ['/dashboard', '/exercicios', '/atividade']; 
+
+  const showUserProfile = pagesWithProfile.some(path => location.pathname.startsWith(path));
 
   const userData = {
     level: 2,
@@ -13,7 +16,6 @@ export function Header() {
   
   const xpPercentage = (userData.currentXP / userData.maxXP) * 100;
 
-  // Estilização ORIGINAL dos links (com hover:bg-gray-700)
   const getLinkClass = (path: string) =>
     `font-semibold p-2 rounded-md transition-colors cursor-pointer ${
       location.pathname === path
@@ -22,22 +24,20 @@ export function Header() {
     }`;
 
   return (
-    // Estilização ORIGINAL do container (bg-gray-800, py-4, border-gray-700)
     <header className="flex justify-between items-center px-8 py-4 bg-gray-800 border-b border-gray-700">
       
       <Link to="/" className="text-2xl font-bold text-white hover:opacity-80 transition-opacity">
         <span className="text-green-500">Prompt</span>Master
       </Link>
 
-      <nav className="hidden md:flex gap-4 items-center">
+      <nav className="flex gap-4 items-center">
         <Link to="/" className={getLinkClass('/')}>Início</Link>
         <Link to="/integrantes" className={getLinkClass('/integrantes')}>Integrantes</Link>
         <Link to="/sobre" className={getLinkClass('/sobre')}>Sobre</Link>
         <Link to="/faq" className={getLinkClass('/faq')}>FAQ</Link>
       </nav>
 
-      {isDashboard ? (
-        // MODO DASHBOARD (XP + PERFIL - Estilo Original)
+      {showUserProfile ? (
         <div className="flex items-center gap-4 text-gray-300">
           <span className="text-sm font-medium">Nível {userData.level}</span>
           
@@ -55,7 +55,6 @@ export function Header() {
           </div>
         </div>
       ) : (
-        // MODO VISITANTE (BOTÕES)
         <div className="flex items-center gap-4">
           <Link 
             to="/login" 
