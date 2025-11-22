@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { ResultadoModal } from "../components/ResultadoModal";
 
 interface AtividadeProps {
   title: string;
@@ -7,42 +8,43 @@ interface AtividadeProps {
   desafio: string;
 }
 
+const XP_ATIVIDADE = 25;
+
 const atividades: Record<string, AtividadeProps> = {
-  'programacao-1': {
-    title: 'Clareza e Objetividade',
-    description: 'Aprenda a criar prompts claros e diretos.',
-    desafio: 'Crie um prompt para uma IA gerar um resumo executivo de um artigo.'
+  "programacao-1": {
+    title: "Clareza e Objetividade",
+    description: "Aprenda a criar prompts claros e diretos.",
+    desafio: "Crie um prompt para uma IA gerar um resumo executivo."
   },
-  'programacao-2': {
-    title: 'Contexto é Rei',
-    description: 'Como dar contexto adequado para IA.',
-    desafio: 'Crie um prompt que contextualize um dado antes da resposta.'
-  },
-
-  'imagens-1': {
-    title: 'Organização de Dados',
-    description: 'Aprenda a estruturar informações de forma eficiente.',
-    desafio: 'Organize dados em formato de tabela.'
-  },
-  'imagens-2': {
-    title: 'Formatação de Respostas',
-    description: 'Crie prompts que geram respostas bem formatadas.',
-    desafio: 'Crie um prompt que exige formatação markdown.'
+  "programacao-2": {
+    title: "Contexto é Rei",
+    description: "Como dar contexto adequado.",
+    desafio: "Crie um prompt que contextualize um dado antes da resposta."
   },
 
-  'documentos-1': {
-    title: 'Comandos Condicionais',
-    description: 'Use condições dentro dos prompts.',
-    desafio: 'Crie um prompt usando "se", "então" e "caso contrário".'
+  "imagens-1": {
+    title: "Organização de Dados",
+    description: "Estruture informações de forma eficiente.",
+    desafio: "Organize dados em formato de tabela."
+  },
+  "imagens-2": {
+    title: "Formatação",
+    description: "Prompts com formatação markdown.",
+    desafio: "Crie um prompt que exija markdown."
   },
 
-  'curadoria-1': {
-    title: 'Prompt Mastery',
-    description: 'Capacidade de curadoria e refinamento.',
-    desafio: 'Crie um prompt que avalie credibilidade de fontes.'
-  }
+  "documentos-1": {
+    title: "Condicionais",
+    description: "Use condições dentro de prompts.",
+    desafio: "Use 'se', 'então' e 'caso contrário'."
+  },
+
+  "curadoria-1": {
+    title: "Prompt Mastery",
+    description: "Refinamento e curadoria.",
+    desafio: "Crie um prompt que avalie credibilidade de fontes."
+  },
 };
-
 
 export function Atividade() {
   const { missaoId } = useParams<{ missaoId: string }>();
@@ -52,7 +54,19 @@ export function Atividade() {
 
   const [prompt, setPrompt] = useState("");
   const [lives, setLives] = useState(5);
-  const [score, setScore] = useState<number | null>(null); // agora está sendo usado no JSX
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [notaFinal, setNotaFinal] = useState<number | null>(null);
+
+  
+  const [xp, setXp] = useState<number>(() => {
+    const saved = localStorage.getItem("userXP");
+    return saved ? Number(saved) : 0;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("userXP", xp.toString());
+  }, [xp]);
 
   if (!atividade) return <p className="p-5">Atividade não encontrada.</p>;
 
@@ -64,16 +78,35 @@ export function Atividade() {
     e.preventDefault();
 
     const nota = avaliarPrompt();
-    setScore(nota);
+    setNotaFinal(nota);
 
-    if (nota <= 60) {
-      setLives(prev => Math.max(0, prev - 1));
-      alert(`Sua nota foi ${nota}. Você perdeu 1 vida.`);
+    // Se foi aprovado → ganha XP
+    if (nota > 60) {
+      setXp((prev) => prev + XP_ATIVIDADE);
     } else {
-      alert(`Sua nota foi ${nota}. Bom trabalho!`);
+      setLives((prev) => Math.max(0, prev - 1));
     }
 
+    setModalOpen(true);
+  };
+
+  // Volta a jogar a mesma atividade
+  const handleRetry = () => {
     setPrompt("");
+    setModalOpen(false);
+  };
+
+  // Vai para próxima atividade automaticamente
+  const handleNext = () => {
+    const ids = Object.keys(atividades);
+    const currentIndex = ids.indexOf(missaoId!);
+
+    if (currentIndex < ids.length - 1) {
+      navigate(`/atividade/${ids[currentIndex + 1]}`);
+      window.location.reload();
+    }
+
+    setModalOpen(false);
   };
 
   return (
@@ -85,10 +118,8 @@ export function Atividade() {
         ← Voltar
       </button>
 
-      {/* VIDAS + NOTA */}
-      <div className="flex gap-10 mb-6 text-lg items-center">
-
-        {/* VIDAS */}
+      {/* VIDAS */}
+      <div className="flex gap-6 mb-6 text-lg items-center">
         <div>
           <p className="font-semibold">Vidas:</p>
           <div className="flex gap-1 text-2xl">
@@ -96,12 +127,6 @@ export function Atividade() {
               <span key={index}>❤️</span>
             ))}
           </div>
-        </div>
-
-        {/* NOTA */}
-        <div>
-          <p className="font-semibold">Última Nota:</p>
-          <p className="text-2xl">{score !== null ? score : "–"}</p>
         </div>
       </div>
 
@@ -127,16 +152,26 @@ export function Atividade() {
           <button
             type="submit"
             disabled={lives === 0}
-            className={`px-4 py-2 rounded-md ${
-              lives === 0
+            className={`px-4 py-2 rounded-md ${lives === 0
                 ? "bg-gray-500 cursor-not-allowed"
                 : "bg-green-600 hover:bg-green-700"
-            }`}
+              }`}
           >
             {lives === 0 ? "Sem vidas" : "Enviar Prompt"}
           </button>
         </form>
       </div>
+
+      <ResultadoModal
+        open={modalOpen}
+        nota={notaFinal}
+        xp={25}
+        passou={notaFinal !== null && notaFinal > 60}
+        onRetry={handleRetry}
+        onNext={notaFinal !== null && notaFinal > 60 ? handleNext : undefined}
+        onClose={() => setModalOpen(false)}
+      />
+
     </div>
   );
 }

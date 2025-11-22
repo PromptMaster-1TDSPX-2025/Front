@@ -7,12 +7,15 @@ export function Header() {
 
   const showUserProfile = pagesWithProfile.some(path => location.pathname.startsWith(path));
 
+  const savedXP = Number(localStorage.getItem("userXP")) || 0;
+
   const userData = {
-    level: 2,
-    currentXP: 10,
-    maxXP: 100,
-    initial: "G"
-  };
+  level: Math.floor(savedXP / 100) + 1,
+  currentXP: savedXP % 100,
+  maxXP: 100,
+  initial: "G"
+};
+
   
   const xpPercentage = (userData.currentXP / userData.maxXP) * 100;
 
