@@ -8,87 +8,129 @@ interface AtividadeProps {
 }
 
 const atividades: Record<string, AtividadeProps> = {
-  'fundamentos-1': {
+  'programacao-1': {
     title: 'Clareza e Objetividade',
     description: 'Aprenda a criar prompts claros e diretos.',
-    desafio: 'Crie um prompt para uma IA gerar um resumo executivo de um artigo.',
+    desafio: 'Crie um prompt para uma IA gerar um resumo executivo de um artigo.'
   },
-  'fundamentos-2': {
+  'programacao-2': {
     title: 'Contexto é Rei',
-    description: 'Domine a arte de fornecer contexto adequado para melhorar as respostas da IA.',
-    desafio: 'Crie um prompt que instrua a IA a contextualizar dados de forma precisa.',
+    description: 'Como dar contexto adequado para IA.',
+    desafio: 'Crie um prompt que contextualize um dado antes da resposta.'
   },
-  'estruturacao-1': {
+
+  'imagens-1': {
     title: 'Organização de Dados',
-    description: 'Aprenda a estruturar informações para prompts mais eficientes.',
-    desafio: 'Organize dados em uma tabela que a IA possa interpretar facilmente.',
+    description: 'Aprenda a estruturar informações de forma eficiente.',
+    desafio: 'Organize dados em formato de tabela.'
   },
-  'estruturacao-2': {
+  'imagens-2': {
     title: 'Formatação de Respostas',
-    description: 'Saídas bem formatadas.',
-    desafio: 'Crie um prompt que gere respostas formatadas em Markdown.',
+    description: 'Crie prompts que geram respostas bem formatadas.',
+    desafio: 'Crie um prompt que exige formatação markdown.'
   },
-  'tecnicas-1': {
+
+  'documentos-1': {
     title: 'Comandos Condicionais',
-    description: 'Use condições nos prompts.',
-    desafio: 'Crie prompts que alterem a saída da IA dependendo de condições específicas.',
+    description: 'Use condições dentro dos prompts.',
+    desafio: 'Crie um prompt usando "se", "então" e "caso contrário".'
   },
-  'expert-1': {
+
+  'curadoria-1': {
     title: 'Prompt Mastery',
-    description: 'Desafios avançados para mestres.',
-    desafio: 'Crie um prompt complexo que combine várias técnicas avançadas.',
-  },
+    description: 'Capacidade de curadoria e refinamento.',
+    desafio: 'Crie um prompt que avalie credibilidade de fontes.'
+  }
 };
+
 
 export function Atividade() {
   const { missaoId } = useParams<{ missaoId: string }>();
   const navigate = useNavigate();
+
   const atividade = missaoId ? atividades[missaoId] : undefined;
-  const [prompt, setPrompt] = useState('');
+
+  const [prompt, setPrompt] = useState("");
+  const [lives, setLives] = useState(5);
+  const [score, setScore] = useState<number | null>(null);
 
   if (!atividade) return <p className="p-5">Atividade não encontrada.</p>;
 
+  function avaliarPrompt(): number {
+    return Math.floor(Math.random() * 101);
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Prompt enviado para avaliação!');
-    setPrompt('');
+
+    const nota = avaliarPrompt();
+    setScore(nota);
+
+    if (nota <= 60) {
+      setLives(prev => Math.max(0, prev - 1));
+      alert(`Sua nota foi ${nota}. Você perdeu 1 vida.`);
+    } else {
+      alert(`Sua nota foi ${nota}. Bom trabalho!`);
+    }
+
+    setPrompt("");
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-5 md:p-10">
+    <div className="max-w-3xl mx-auto p-6 text-white">
       <button
         onClick={() => navigate(-1)}
-        className="mb-6 px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-colors"
+        className="mb-6 px-4 py-2 bg-gray-700 rounded-md hover:bg-gray-600"
       >
         ← Voltar
       </button>
 
-      <div className="bg-gray-800 p-6 rounded-xl shadow-md">
+      {/* VIDAS + NOTA */}
+      <div className="flex gap-6 mb-6 text-lg items-center">
+        <div className="flex items-center gap-2">
+          <div className="mb-4">
+            <p className="font-semibold">Vidas:</p>
+            <div className="flex gap-1 text-2xl">
+              {Array.from({ length: lives }).map((_, index) => (
+                <span key={index}>❤️</span>
+              ))}
+            </div>
+          </div>
+
+              
+        </div>
+
+       
+      </div>
+
+      <div className="bg-gray-800 p-6 rounded-xl">
         <h2 className="text-3xl font-bold mb-2">{atividade.title}</h2>
         <p className="text-gray-300 mb-4">{atividade.description}</p>
 
         <div className="bg-gray-700 p-4 rounded-md mb-6">
-          <strong className="block mb-1">Desafio:</strong>
-          <p className="text-gray-200">{atividade.desafio}</p>
+          <strong>Desafio:</strong>
+          <p>{atividade.desafio}</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          <label htmlFor="prompt-input" className="font-semibold">
-            Seu Prompt:
-          </label>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <textarea
-            id="prompt-input"
-            placeholder="Digite seu prompt aqui..."
+            placeholder="Digite seu prompt..."
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            className="p-3 rounded-md bg-gray-900 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-acento"
+            className="p-3 rounded-md bg-gray-900 border border-gray-600"
             rows={5}
-          ></textarea>
+            disabled={lives === 0}
+          />
+
           <button
             type="submit"
-            className="px-4 py-2 bg-acento text-white rounded-md font-bold hover:bg-[#16a085] transition-colors"
+            disabled={lives === 0}
+            className={`px-4 py-2 rounded-md ${lives === 0
+                ? "bg-gray-500 cursor-not-allowed"
+                : "bg-green-600 hover:bg-green-700"
+              }`}
           >
-            Enviar Prompt
+            {lives === 0 ? "Sem vidas" : "Enviar Prompt"}
           </button>
         </form>
       </div>
