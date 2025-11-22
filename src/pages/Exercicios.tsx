@@ -9,6 +9,7 @@ interface Exercise {
   link: string;
 }
 
+// Cada missão tem seus próprios exercícios
 const exercisesByMission: Record<string, Exercise[]> = {
   fundamentos: [
     { title: 'Clareza e Objetividade', description: 'Prompt claros e diretos.', difficulty: 'Fácil', xp: 50, completed: true, link: '/atividade/fundamentos-1' },
