@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FormInput } from '../components/form-input';
-import type { Login } from '../types/autenticacao';
+import type { Login as LoginType } from '../types/autenticacao';
 
 export function Login() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<Login>({
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState<LoginType>({
     email: '',
     password: ''
   });
@@ -14,10 +15,46 @@ export function Login() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-    navigate('/dashboard');
+    setIsLoading(true);
+
+    const payload = {
+      login: formData.email,
+      senha: formData.password
+    };
+
+    try {
+      const response = await fetch('https://promptmaster-java.onrender.com/login/autenticar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        const usuario = await response.json();
+        
+        // Salvar dados do usuário no localStorage
+        localStorage.setItem("userId", usuario.id);
+        localStorage.setItem("userName", usuario.nome);
+        localStorage.setItem("userXP", usuario.totalXp);
+        localStorage.setItem("userLevel", usuario.nivel);
+
+        // Disparar evento para forçar atualização do Header imediatamente
+        window.dispatchEvent(new Event("storage"));
+
+        navigate('/dashboard');
+      } else {
+        alert("E-mail ou senha inválidos.");
+      }
+    } catch (error) {
+      console.error("Erro de login:", error);
+      alert("Erro ao conectar com o servidor.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -58,9 +95,11 @@ export function Login() {
 
           <button 
             type="submit" 
-            className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg transition-colors shadow-lg mt-6"
+            disabled={isLoading}
+            className={`w-full py-3 bg-purple-600 text-white font-bold rounded-lg transition-colors shadow-lg mt-6 
+              ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-700'}`}
           >
-            Entrar
+            {isLoading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
 
