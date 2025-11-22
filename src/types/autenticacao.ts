@@ -7,6 +7,7 @@ export interface Login {
 
 export interface Cadastro {
   name: string;
+  age: string;
   email: string;
   password: string;
   confirmPassword: string;

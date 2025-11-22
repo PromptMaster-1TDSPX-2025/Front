@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FormInput } from '../components/form-input';
-import type { Cadastro} from '../types/autenticacao';
+import type { Cadastro } from '../types/autenticacao';
 
 export function Cadastro() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  
   const [formData, setFormData] = useState<Cadastro>({
     name: '',
+    age: '', 
     email: '',
     password: '',
     confirmPassword: ''
@@ -16,7 +19,7 @@ export function Cadastro() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (formData.password !== formData.confirmPassword) {
@@ -24,9 +27,45 @@ export function Cadastro() {
       return;
     }
 
-    console.log(formData);
-    alert("Conta criada com sucesso! Faça login para continuar.");
-    navigate('/login'); 
+    setIsLoading(true);
+
+    // Converte a idade para número (inteiro) antes de enviar
+    const idadeInt = parseInt(formData.age, 10);
+
+    const payload = {
+      login: formData.email,
+      senha: formData.password,
+      usuario: {
+        nome: formData.name,
+        idade: isNaN(idadeInt) ? 18 : idadeInt, // Garante um valor válido
+        totalXp: 0,
+        nivel: 1
+      }
+    };
+
+    try {
+      const response = await fetch('https://promptmaster-java.onrender.com/usuarios/cadastro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        alert("Conta criada com sucesso! Faça login para continuar.");
+        navigate('/login'); 
+      } else {
+        const errorData = await response.text(); 
+        alert(`Erro ao cadastrar: ${errorData}`);
+      }
+
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+      alert("Erro de conexão com o servidor.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -48,6 +87,18 @@ export function Cadastro() {
             value={formData.name}
             onChange={handleChange}
             required
+          />
+
+          <FormInput 
+            label="Idade"
+            name="age"
+            type="number"
+            placeholder="Ex: 25"
+            value={formData.age}
+            onChange={handleChange}
+            required
+            min={1} 
+            max={120}
           />
 
           <FormInput 
@@ -82,9 +133,11 @@ export function Cadastro() {
 
           <button 
             type="submit" 
-            className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition-colors shadow-lg mt-6"
+            disabled={isLoading}
+            className={`w-full py-3 bg-green-600 text-white font-bold rounded-lg transition-colors shadow-lg mt-6 
+              ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-700'}`}
           >
-            Criar Conta
+            {isLoading ? 'Criando conta...' : 'Criar Conta'}
           </button>
         </form>
 
