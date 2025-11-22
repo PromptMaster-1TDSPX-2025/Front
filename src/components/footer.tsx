@@ -20,7 +20,7 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-4 text-gray-200">Produto</h3>
             <ul className="space-y-2 text-gray-400">
               <li>
-                <Link to="/dashboard" className="hover:text-green-400 transition-colors">Dashboard</Link>
+                <Link to="/login" className="hover:text-green-400 transition-colors">Dashboard</Link>
               </li>
               <li>
                 <Link to="/missoes" className="hover:text-green-400 transition-colors">Missões</Link>
