@@ -11,18 +11,18 @@ interface Exercise {
 
 const exercisesByMission: Record<string, Exercise[]> = {
   programacao: [
-    { title: 'Clareza e Objetividade', description: 'Prompts claros e diretos.', difficulty: 'Fácil', xp: 50, completed: true, link: '/atividade/programacao-1' },
-    { title: 'Contexto é Rei', description: 'Dar contexto adequado para a IA.', difficulty: 'Fácil', xp: 50, completed: false, link: '/atividade/programacao-2' },
+    { title: 'Clareza e Objetividade', description: 'Prompts claros e diretos.', difficulty: 'Fácil', xp: 25, completed: true, link: '/atividade/programacao-1' },
+    { title: 'Contexto é Rei', description: 'Dar contexto adequado para a IA.', difficulty: 'Fácil', xp: 25, completed: false, link: '/atividade/programacao-2' },
   ],
   imagens: [
-    { title: 'Organização de Dados', description: 'Estruture informações corretamente.', difficulty: 'Médio', xp: 60, completed: false, link: '/atividade/imagens-1' },
-    { title: 'Formatação de Respostas', description: 'Saídas bem formatadas.', difficulty: 'Médio', xp: 60, completed: false, link: '/atividade/imagens-2' },
+    { title: 'Organização de Dados', description: 'Estruture informações corretamente.', difficulty: 'Médio', xp: 25, completed: false, link: '/atividade/imagens-1' },
+    { title: 'Formatação de Respostas', description: 'Saídas bem formatadas.', difficulty: 'Médio', xp: 25, completed: false, link: '/atividade/imagens-2' },
   ],
   documentos: [
-    { title: 'Comandos Condicionais', description: 'Use condições nos prompts.', difficulty: 'Difícil', xp: 80, completed: false, link: '/atividade/documentos-1' },
+    { title: 'Comandos Condicionais', description: 'Use condições nos prompts.', difficulty: 'Difícil', xp: 25, completed: false, link: '/atividade/documentos-1' },
   ],
   curadoria: [
-    { title: 'Prompt Mastery', description: 'Desafios avançados para mestres.', difficulty: 'Expert', xp: 100, completed: false, link: '/atividade/curadoria-1' },
+    { title: 'Prompt Mastery', description: 'Desafios avançados para mestres.', difficulty: 'Expert', xp: 25, completed: false, link: '/atividade/curadoria-1' },
   ],
 };
 
