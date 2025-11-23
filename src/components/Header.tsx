@@ -1,23 +1,14 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../contexts/useAuth';
 
 export function Header() {
   const location = useLocation();
+  // Usamos a lógica da feature branch (Auth Context)
+  const { user, isAuthenticated, logout } = useAuth();
 
-  const pagesWithProfile = ['/dashboard', '/exercicios', '/atividade']; 
-
-  const showUserProfile = pagesWithProfile.some(path => location.pathname.startsWith(path));
-
-  const savedXP = Number(localStorage.getItem("userXP")) || 0;
-
-  const userData = {
-  level: Math.floor(savedXP / 100) + 1,
-  currentXP: savedXP % 100,
-  maxXP: 100,
-  initial: "G"
-};
-
-  
-  const xpPercentage = (userData.currentXP / userData.maxXP) * 100;
+  // Cálculo de XP baseado no usuário real
+  const xpAtualNoNivel = user ? user.totalXp % 100 : 0; 
+  const xpPercentage = (xpAtualNoNivel / 100) * 100;
 
   const getLinkClass = (path: string) =>
     `font-semibold p-2 rounded-md transition-colors cursor-pointer ${
@@ -33,31 +24,44 @@ export function Header() {
         <span className="text-green-500">Prompt</span>Master
       </Link>
 
-      <nav className="flex gap-4 items-center">
+      <nav className="hidden md:flex gap-4 items-center">
         <Link to="/" className={getLinkClass('/')}>Início</Link>
+        {/* Link condicional da feature branch */}
+        {isAuthenticated && <Link to="/dashboard" className={getLinkClass('/dashboard')}>Missões</Link>}
         <Link to="/integrantes" className={getLinkClass('/integrantes')}>Integrantes</Link>
         <Link to="/sobre" className={getLinkClass('/sobre')}>Sobre</Link>
+        {/* Mantivemos o FAQ da develop branch */}
         <Link to="/faq" className={getLinkClass('/faq')}>FAQ</Link>
       </nav>
 
-      {showUserProfile ? (
+      {/* Lógica de exibição baseada no AuthContext */}
+      {isAuthenticated && user ? (
+
         <div className="flex items-center gap-4 text-gray-300">
-          <span className="text-sm font-medium">Nível {userData.level}</span>
+          <span className="text-sm font-medium text-green-400">Nível {user.nivel}</span>
           
-          <div className="w-24 h-2 bg-gray-700 rounded-full overflow-hidden">
+          {/* Barra de XP */}
+          <div className="w-24 h-2 bg-gray-700 rounded-full overflow-hidden" title={`XP Total: ${user.totalXp}`}>
             <div 
               className="h-full bg-green-500 transition-all duration-1000" 
               style={{ width: `${xpPercentage}%` }} 
             />
           </div>
           
-          <span className="text-sm font-medium">{userData.currentXP}/{userData.maxXP} XP</span>
+          <span className="text-sm font-medium hidden sm:block">{user.totalXp} XP</span>
           
-          <div className="w-9 h-9 rounded-full bg-purple-700 flex items-center justify-center font-semibold text-white cursor-pointer">
-            {userData.initial}
+          {/* Avatar com Inicial */}
+          <div className="w-9 h-9 rounded-full bg-purple-700 flex items-center justify-center font-semibold text-white cursor-pointer border border-purple-500" title={user.nome}>
+            {user.nome.charAt(0).toUpperCase()}
           </div>
+
+          {/* Botão Sair */}
+          <button onClick={logout} className="text-xs text-red-400 hover:text-red-300 ml-2">
+            Sair
+          </button>
         </div>
       ) : (
+        // === MODO VISITANTE ===
         <div className="flex items-center gap-4">
           <Link 
             to="/login" 
