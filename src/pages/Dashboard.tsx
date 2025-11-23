@@ -10,11 +10,12 @@ interface Missao {
 }
 
 const missoes: Missao[] = [
-  { id: 'fundamentos', icon: '🎯', title: 'Fundamentos', description: 'Domine os conceitos básicos de engenharia de prompt.', progress: 2, total: 3 },
-  { id: 'estruturacao', icon: '📏', title: 'Estruturação', description: 'Aprenda a organizar informações e formatar saídas.', progress: 0, total: 3 },
-  { id: 'tecnicas-avancadas', icon: '🚀', title: 'Técnicas Avançadas', description: 'Técnicas sofisticadas para resultados profissionais.', progress: 0, total: 3 },
-  { id: 'nivel-expert', icon: '👑', title: 'Nível Expert', description: 'Desafios para mestres da engenharia de prompt.', progress: 0, total: 2 },
+  { id: 'programacao', icon: '🎯', title: 'Programação', description: 'Domine os conceitos básicos de engenharia de prompt focados na área de programação.', progress: 2, total: 3 },
+  { id: 'imagens', icon: '📏', title: 'Imagens', description: 'Aprenda a organizar informações e formatar prompts para gerar a melhor imagem.', progress: 0, total: 3 },
+  { id: 'documentos', icon: '🚀', title: 'Documentos', description: 'Técnicas sofisticadas para gerar documentos claros e ricos.', progress: 0, total: 3 },
+  { id: 'curadoria', icon: '👑', title: 'Pesquisa e Curadoria de Informação', description: 'Desafios para mestres de pesquisas.', progress: 0, total: 2 },
 ];
+
 
 export function Dashboard() {
   return (
@@ -25,12 +26,15 @@ export function Dashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
         {missoes.map((missao) => (
           <Link key={missao.id} to={`/exercicios/${missao.id}`}>
-            <div className="bg-gray-800 rounded-xl p-6 hover:shadow-lg transition-shadow">
+            <div
+              className=" bg-gray-800 rounded-xl p-6 transition-all duration-200 ease-out hover:bg-green-600 10 hover:shadow-xl hover:-translate-y-1 hover:z-10 relative cursor-pointer"
+            >
               <h3 className="text-xl font-semibold mb-2 flex items-center gap-2">
                 <span className="text-2xl">{missao.icon}</span>
                 {missao.title}
               </h3>
-              <p className="text-gray-400 mb-4">{missao.description}</p>
+
+              <p className="text-gray-100 mb-4">{missao.description}</p>
 
               <div className="w-full bg-gray-700 rounded-full h-3 mb-2 overflow-hidden">
                 <div
@@ -38,11 +42,13 @@ export function Dashboard() {
                   style={{ width: `${(missao.progress / missao.total) * 100}%` }}
                 ></div>
               </div>
-              <div className="flex justify-between text-gray-300 text-sm">
+
+              <div className="flex justify-between text-gray-100 text-sm">
                 <span>{missao.progress}/{missao.total} missões</span>
                 <span>{Math.floor((missao.progress / missao.total) * 100)}%</span>
               </div>
             </div>
+
           </Link>
         ))}
       </div>
