@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FormInput } from '../components/form-input';
+import { useAuth } from '../contexts/useAuth';
 import type { Login as LoginType } from '../types/autenticacao';
 
 export function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<LoginType>({
     email: '',
@@ -36,14 +38,12 @@ export function Login() {
       if (response.ok) {
         const usuario = await response.json();
         
-        // Salvar dados do usuário no localStorage
-        localStorage.setItem("userId", usuario.id);
-        localStorage.setItem("userName", usuario.nome);
-        localStorage.setItem("userXP", usuario.totalXp);
-        localStorage.setItem("userLevel", usuario.nivel);
-
-        // Disparar evento para forçar atualização do Header imediatamente
-        window.dispatchEvent(new Event("storage"));
+        login({
+          id: usuario.id,
+          nome: usuario.nome,
+          totalXp: usuario.totalXp,
+          nivel: usuario.nivel
+        });
 
         navigate('/dashboard');
       } else {
