@@ -27,10 +27,9 @@ export function Header() {
       <nav className="hidden md:flex gap-4 items-center">
         <Link to="/" className={getLinkClass('/')}>Início</Link>
         {/* Link condicional da feature branch */}
-        {isAuthenticated && <Link to="/dashboard" className={getLinkClass('/dashboard')}>Missões</Link>}
+        {isAuthenticated && <Link to="/dashboard" className={getLinkClass('/dashboard')}>Trilhas</Link>}
         <Link to="/integrantes" className={getLinkClass('/integrantes')}>Integrantes</Link>
         <Link to="/sobre" className={getLinkClass('/sobre')}>Sobre</Link>
-        {/* Mantivemos o FAQ da develop branch */}
         <Link to="/faq" className={getLinkClass('/faq')}>FAQ</Link>
       </nav>
 
