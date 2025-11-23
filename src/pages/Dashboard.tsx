@@ -64,19 +64,6 @@ export function Dashboard() {
                 
                 <p className="text-gray-400 mb-6 flex-1">{trilha.descricao}</p>
 
-                <div className="mt-auto">
-                  <div className="w-full bg-gray-700 rounded-full h-3 mb-2 overflow-hidden">
-                    <div
-                      className="h-full bg-green-500"
-                      style={{ width: '0%' }} 
-                    ></div>
-                  </div>
-                  <div className="flex justify-between text-gray-300 text-sm">
-                    <span>0 atividades concluídas</span>
-                    <span>0%</span>
-                  </div>
-                </div>
-
               </div>
             </Link>
           ))}
