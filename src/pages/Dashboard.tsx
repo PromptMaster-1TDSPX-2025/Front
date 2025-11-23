@@ -17,25 +17,11 @@ export function Dashboard() {
 
   const getVisualDaTrilha = (nome: string) => {
     const n = nome.toLowerCase();
-    
-    if (n.includes('programação') || n.includes('código')) {
-      // 💻 - Computador / Teclado
-      return '💻'; 
-    }
-    if (n.includes('imagens')) {
-      // 🎨 - Paleta / Arte
-      return '🎨'; 
-    }
-    if (n.includes('documentos')) {
-      // 📝 - Memo / Escrita
-      return '📝'; 
-    }
-    if (n.includes('pesquisa') || n.includes('curadoria')) {
-      // 🔎 - Lupa / Pesquisa
-      return '🔎'; 
-    }
-    
-    return '✨'; // Fallback
+    if (n.includes('programação') || n.includes('código')) return '💻';
+    if (n.includes('imagens')) return '🎨';
+    if (n.includes('documentos')) return '📝';
+    if (n.includes('pesquisa') || n.includes('curadoria')) return '🔎';
+    return '✨';
   };
 
   const carregarDados = useCallback(async () => {
@@ -65,7 +51,7 @@ export function Dashboard() {
 
   const handleAtivar = async (e: React.MouseEvent, idTrilha: number) => {
     e.preventDefault(); 
-    e.stopPropagation();
+    e.stopPropagation(); // Impede que o clique suba para o card 
 
     if (!user) {
         alert("Você precisa estar logado para ativar uma trilha.");
@@ -117,53 +103,60 @@ export function Dashboard() {
             const isAtiva = trilhasAtivas.includes(trilha.id);
             const icon = getVisualDaTrilha(trilha.nome);
 
-            return (
-              <Link key={trilha.id} to={`/exercicios/${trilha.id}`}>
-                <div className="bg-gray-800 rounded-xl p-6 transition-all duration-200 ease-out hover:bg-green-600 hover:shadow-xl hover:-translate-y-1 hover:z-10 relative cursor-pointer h-full flex flex-col">
-                  
-                  <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-white">
-                    <span className="text-2xl">{icon}</span>
-                    {trilha.nome}
-                  </h3>
-                  
-                  <p className="text-gray-400 mb-4 flex-1">{trilha.descricao}</p>
+            const cardContent = (
+              <div className={`bg-gray-800 rounded-xl p-6 transition-all duration-200 ease-out hover:bg-green-600 hover:shadow-xl hover:-translate-y-1 hover:z-10 relative h-full flex flex-col ${isAtiva ? 'cursor-pointer' : 'cursor-default'}`}>
+                
+                <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-white">
+                  <span className="text-2xl">{icon}</span>
+                  {trilha.nome}
+                </h3>
+                
+                <p className="text-gray-400 mb-4 flex-1">{trilha.descricao}</p>
 
-                  <div className="mt-auto">
-                    {isAtiva ? (
-                        <>
-                            <div className="w-full bg-gray-700 rounded-full h-3 mb-2 overflow-hidden">
-                              
-                                <div
-                                    className="h-full bg-green-400 transition-all duration-500"
-                                    style={{ width: '0%' }} 
-                                ></div>
-                            </div>
-                            <div className="flex justify-between text-gray-300 text-sm">
-                                <span>0/3 missões</span>
-                                <span>0%</span>
-                            </div>
-                        </>
-                    ) : (
+                <div className="mt-auto">
+                  {isAtiva ? (
                       <div className="flex justify-end pt-2">
-                      <button 
-                          onClick={(e) => handleAtivar(e, trilha.id)}
-                          disabled={activatingId === trilha.id}
-                          className={`
-                              px-4 py-2 rounded-lg font-bold text-sm transition-colors shadow-md w-full sm:w-auto
-                              ${activatingId === trilha.id 
-                                  ? 'bg-gray-600 cursor-wait text-gray-300' 
-                                  : 'bg-white text-green-700 hover:bg-green-700 hover:text-white'
-                              }
-                          `}
-                      >
-                          {activatingId === trilha.id ? 'Ativando...' : 'Ativar Trilha'}
-                      </button>
-                  </div>
-                    )}
-                  </div>
-
+                          <button 
+                              disabled
+                              className="px-4 py-2 rounded-lg font-bold text-sm bg-white text-green-700 cursor-default shadow-md opacity-90"
+                          >
+                              ✓ Trilha ativada
+                          </button>
+                      </div>
+                  ) : (
+                      <div className="flex justify-end pt-2">
+                          <button 
+                              onClick={(e) => handleAtivar(e, trilha.id)}
+                              disabled={activatingId === trilha.id}
+                              className={`
+                                  px-4 py-2 rounded-lg font-bold text-sm transition-colors shadow-md w-full sm:w-auto
+                                  ${activatingId === trilha.id 
+                                      ? 'bg-gray-600 cursor-wait text-gray-300' 
+                                      : 'bg-white text-green-700 hover:bg-green-700 hover:text-white'
+                                  }
+                              `}
+                          >
+                              {activatingId === trilha.id ? 'Ativando...' : 'Ativar Trilha'}
+                          </button>
+                      </div>
+                  )}
                 </div>
-              </Link>
+              </div>
+            );
+
+            // Se ativa usa Link, se não usa Div
+            if (isAtiva) {
+              return (
+                <Link key={trilha.id} to={`/trilha/${trilha.id}`} className="group block h-full">
+                  {cardContent}
+                </Link>
+              );
+            }
+
+            return (
+              <div key={trilha.id} className="group block h-full">
+                {cardContent}
+              </div>
             );
           })}
         </div>

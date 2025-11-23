@@ -9,6 +9,7 @@ import { Atividade } from './components/Atividade';
 import { Exercicios } from './pages/Exercicios';
 import { Cadastro } from './pages/Cadastro';
 import { Login } from './pages/Login';
+import { TrilhaMap } from './pages/TrilhaMap';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
 
         <Route index element={<Home />} />
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="trilha/:trilhaId" element={<TrilhaMap />} />
         <Route path="integrantes" element={<Integrantes />} />
         <Route path="faq" element={<Faq />} />
         <Route path="sobre" element={<Sobre />} />
