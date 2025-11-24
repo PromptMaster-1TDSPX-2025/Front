@@ -21,6 +21,8 @@ versão do projeto: 1.0
 ---
 
 ## Sumario
+
+```
 ├── Sobre o projeto
 ├── Tecnologias Utilizadas 
 ├── Instalação
@@ -32,6 +34,7 @@ versão do projeto: 1.0
 ├── Contato 
 ├── Links importantes
 
+```
 
 ## Sobre o Projeto
 
@@ -193,12 +196,12 @@ POST /prompt/feedback
 ---
 # Screenshots / Demonstração 
 
-![Missoes](./src/assets/missoes.JPG) 
-![Trilha](./src/assets/trilha.JPG) 
-![ConteudoTeorico](./src/assets/conteudo-teorico.png) 
-![Desafio](./src/assets/desafio.png) 
-![Prompt](./src/assets/campo-prompt.png) 
-![Feedback](./src/assets/feedback.png) 
+![Missoes](src/assets/missoes.jpg) 
+![Trilha](src/assets/trilha.jpg) 
+![ConteudoTeorico](src/assets/conteudo-teorico.png) 
+![Desafio](src/assets/desafio.png) 
+![Prompt](src/assets/campo-prompt.png) 
+![Feedback](src/assets/feedback.png) 
 
 ---
 
